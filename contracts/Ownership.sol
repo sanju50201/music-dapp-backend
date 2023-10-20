@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.20;
+pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -11,6 +11,7 @@ abstract contract Ownership is ERC721URIStorage, Ownable {
     string artist;
     string ipfsHash;
   }
+  //   error OwnableInvalidOwner(address owner);
 
   mapping(uint256 => MusicInfo) private musicInfo;
 
@@ -24,7 +25,7 @@ abstract contract Ownership is ERC721URIStorage, Ownable {
   );
 
   constructor(address initialOwner) ERC721("MusicOwnership", "MUSIC") {
-    Ownable.transferOwnership(initialOwner);
+    _transferOwnership(initialOwner);
   }
 
   function uploadMusic(
@@ -50,9 +51,8 @@ abstract contract Ownership is ERC721URIStorage, Ownable {
     view
     returns (string memory title, string memory artist, string memory ipfsHash)
   {
-    require(_exists(tokenId), "Music does not exist");
+    // require(ownerOf(tokenId), "Music does not exist");
     MusicInfo memory info = musicInfo[tokenId];
     return (info.title, info.artist, info.ipfsHash);
   }
 }
- 
